@@ -19,7 +19,13 @@ contract IdentityProvider is ERC721 {
         }
     }
 
+    /*/////////////////////////////////////////////
+                        SOULBOUND
+    /////////////////////////////////////////////*/
     
+    function transferFrom(address , address , uint256 ) public override pure {        
+        revert("You cannot transfer an identity");
+    }
 
     function tokenURI(uint256 id) public view override returns (string memory) {
         return "ipfs link";
