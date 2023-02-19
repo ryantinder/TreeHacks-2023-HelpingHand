@@ -42,19 +42,32 @@ contract Project {
     function endProject() external {
         require(msg.sender == host, "You are not the host of this project");
         uint l = contributors.length();
+        require(l > 0, "No contributors to distribute to");
         uint i = 0;
         uint amount = asset.balanceOf(address(this)) / l;
         for (i; i < l;) {
-            uint id = contributors.at(i);
+            uint id = contributors.at(0);
             asset.transfer(identityProvider.ownerOf(id), amount);
             unchecked {
                 ++i;
             }
+            contributors.remove(id);
         }
         // sweep remainder to host
         asset.transfer(host, asset.balanceOf(address(this)));
     }
 
+    function removeParticipants(uint[] calldata ids) external {
+        require(msg.sender == host, "You are not the host of this project");
+        uint l = contributors.length();
+        uint i;
+        for (i; i < l;) {
+            contributors.remove(ids[i]);
+            unchecked {
+                ++i;
+            }
+        }
+    }
 
 
 

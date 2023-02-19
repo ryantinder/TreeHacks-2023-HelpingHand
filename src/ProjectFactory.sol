@@ -10,8 +10,8 @@ contract ProjectFactory {
 
     IdentityProvider public identityProvider;
 
-    constructor() {
-        identityProvider = new IdentityProvider();
+    constructor(IdentityProvider _identityProvider) {
+        identityProvider = _identityProvider;
     }
 
     function createProject(string memory ipfs, IERC20 asset) external returns (address project) {

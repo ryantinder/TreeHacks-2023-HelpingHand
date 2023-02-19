@@ -25,9 +25,9 @@ contract EndProjectTests is PRBTest, StdCheats {
     constructor() {
         // solhint-disable-previous-line no-empty-blocks
         vm.createSelectFork(RPC_URL);
+        identityProvider = new IdentityProvider();
 
-        factory = new ProjectFactory();
-        identityProvider = factory.identityProvider();
+        factory = new ProjectFactory(identityProvider);
         hoax(alice, alice);
         identityProvider.mint();
         hoax(bob, bob);
@@ -61,5 +61,6 @@ contract EndProjectTests is PRBTest, StdCheats {
 
         assertEq(USDC.balanceOf(alice), 5e6);
         assertEq(USDC.balanceOf(bob), 5e6);
+        assertEq(project.getContributors().length, 0);
     }
 }

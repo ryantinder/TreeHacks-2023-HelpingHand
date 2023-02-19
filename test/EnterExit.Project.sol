@@ -22,12 +22,12 @@ contract EnterExitTests is PRBTest, StdCheats {
     string RPC_URL = vm.envString("OPTIMISM");
     IERC20 USDC = IERC20(0x7F5c764cBc14f9669B88837ca1490cCa17c31607);
 
-    constructor() public {
+    constructor() {
         // solhint-disable-previous-line no-empty-blocks
         vm.createSelectFork(RPC_URL);
 
-        factory = new ProjectFactory();
-        identityProvider = factory.identityProvider();
+        identityProvider = new IdentityProvider();
+        factory = new ProjectFactory(identityProvider);
         hoax(alice, alice);
         identityProvider.mint();
         hoax(bob, bob);

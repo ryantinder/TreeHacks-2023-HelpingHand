@@ -25,6 +25,11 @@ contract IdentityProviderTest is PRBTest, StdCheats {
         identityProvider = new IdentityProvider();
     }
 
+    address IP = 0xFC40A788787CC7D27Fb8888e5Dee08B4FfF1F341;
+    function test() public {
+        console2.log(IP.code.length);
+    }
+
     function testMints() public  {
         hoax(alice, alice);
         identityProvider.mint();
