@@ -22,7 +22,7 @@ contract EndProjectTests is PRBTest, StdCheats {
     address bob = address(15);
     address admin = address(16);
     string RPC_URL = vm.envString("OPTIMISM");
-    constructor() public {
+    constructor() {
         // solhint-disable-previous-line no-empty-blocks
         vm.createSelectFork(RPC_URL);
 
@@ -35,6 +35,17 @@ contract EndProjectTests is PRBTest, StdCheats {
         hoax(admin, admin);
         project = Project(factory.createProject("ipfs", USDC));
 
+    }
+
+    function testOneWayDisperse() public {
+        hoax(alice, alice);
+        project.enter(0);
+        deal(address(project.asset()), address(project), 10e6);
+
+        hoax(admin, admin);
+        project.endProject();
+
+        assertEq(USDC.balanceOf(alice), 10e6);
     }
 
     function testTwoWayDisperse() public {

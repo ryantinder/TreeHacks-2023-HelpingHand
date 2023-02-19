@@ -5,7 +5,9 @@ import { ERC721 } from "lib/solmate/src/tokens/ERC721.sol";
 
 contract IdentityProvider is ERC721 {
 
-    constructor() ERC721("GO-FUND-THAT", "GFT") {}
+    constructor() ERC721("Helping Hand", "HH") {}
+
+    mapping(address project => mapping(uint id => bytes32[])) public photos;
 
     uint public totalSupply;
 
@@ -17,6 +19,36 @@ contract IdentityProvider is ERC721 {
         unchecked {
             ++totalSupply;
         }
+    }
+
+    function addPhotos(address project, uint id, bytes32[] calldata  _photos) external {
+        require(ownerOf(id) == msg.sender, "You are not the owner of this identity");
+        uint length = _photos.length;
+        uint i;
+        for (i = 0; i < length;) {
+            photos[project][id].push(_photos[i]);
+            unchecked {
+                ++i;
+            }
+        }
+    }
+
+    function removePhotos(address project, uint id, uint[] calldata indices) external {
+        require(ownerOf(id) == msg.sender, "You are not the owner of this identity");
+        uint length = indices.length;
+        uint i;
+        for (i = 0; i < length;) {
+            uint index = indices[i];
+            require(index < length, "Index out of bounds");
+            delete photos[project][id][index];
+            unchecked {
+                ++i;
+            }
+        }
+    }
+
+    function getPhotos(address project, uint id) external view returns(bytes32[] memory) {
+        return photos[project][id];
     }
 
     /*/////////////////////////////////////////////

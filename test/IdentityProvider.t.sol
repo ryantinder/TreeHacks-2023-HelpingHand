@@ -56,6 +56,31 @@ contract IdentityProviderTest is PRBTest, StdCheats {
         vm.expectRevert("You cannot transfer an identity");
         identityProvider.safeTransferFrom(alice, bob, 0, bytes("0x0"));
     }
-
     
+    // function testAddPhoto() public {
+    //     testMints();
+    //     hoax(alice, alice);
+    //     identityProvider.addPhoto(0, bytes32(0x00eec7a500ccbcb39340481c803621d8eccd62844dc3baaaaf2c6dc25532ea65));
+    //     bytes32 photo = identityProvider.photos(0, 0);
+    //     assertEq(photo, bytes32(0x00eec7a500ccbcb39340481c803621d8eccd62844dc3baaaaf2c6dc25532ea65));
+    // }
+
+    // function testRemovePhoto() public {
+    //     testAddPhoto();
+    //     hoax(alice, alice);
+    //     identityProvider.removePhoto(0, 0);
+    //     bytes32 photo = identityProvider.photos(0, 0);
+    //     assertEq(photo, bytes32(0x0));
+    // }
+
+    // function testRemoveFirstPhotoMaintainsArray() public {
+    //     testAddPhoto();
+    //     startHoax(alice, alice);
+    //     identityProvider.addPhoto(0, bytes32(0x50c7d349c028414caa3a5b101cad1bfc1115587e5e81114c71bfd501a0793f2b));
+    //     identityProvider.removePhoto(0, 0);
+    //     bytes32[] memory photos = identityProvider.getPhotos(0);
+    //     assertEq(photos.length, 2);
+    //     assertEq(photos[1], bytes32(0x50c7d349c028414caa3a5b101cad1bfc1115587e5e81114c71bfd501a0793f2b));
+    //     assertEq(photos[0], bytes32(0x0));
+    // }
 }

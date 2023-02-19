@@ -30,10 +30,12 @@ contract Project {
      * @param id Identity to enter
      */
     function enter(uint256 id) onlyOwnerOfId(id) external {
+        require(msg.sender != host, "You are the host of this project");
         require(contributors.add(id), "You have already entered this project");
     }
 
     function exit(uint256 id) onlyOwnerOfId(id) external {
+        require(msg.sender != host, "You are the host of this project");
         require(contributors.remove(id), "You have not entered this project");
     }
 

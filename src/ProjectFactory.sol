@@ -6,7 +6,7 @@ import { IdentityProvider} from "./IdentityProvider.sol";
 import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract ProjectFactory {
 
-    event ProjectCreated(address projectAddress);
+    event ProjectCreated(address indexed project, address indexed host);
 
     IdentityProvider public identityProvider;
 
@@ -17,6 +17,6 @@ contract ProjectFactory {
     function createProject(string memory ipfs, IERC20 asset) external returns (address project) {
         require(msg.sender.code.length == 0, "!EOA");
         project = address(new Project(ipfs, msg.sender, asset, identityProvider));
-        emit ProjectCreated(project);
+        emit ProjectCreated(project, msg.sender);
     }
 }
